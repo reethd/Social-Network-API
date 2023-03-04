@@ -1,0 +1,28 @@
+{
+  "name": "social-network-api",
+  "version": "1.0.0",
+  "description": "excersize in using a mongo database",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reethd/Social-Network-API.git"
+  },
+  "keywords": [
+    "social",
+    "network"
+  ],
+  "author": "reeth",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^7.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/reethd/Social-Network-API/issues"
+  },
+  "homepage": "https://github.com/reethd/Social-Network-API#readme"
+}
