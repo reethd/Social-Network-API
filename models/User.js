@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const ThoughtSchema = require("./Thought");
+const Thought = require("./Thought");
+
+const Friend = mongoose.model("Friend", UserSchema);
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -21,8 +23,14 @@ const UserSchema = new mongoose.Schema({
       message: (props) => `${props.value} is not a valid email!`,
     },
   },
-  thoughts: [ThoughtSchema._id],
-  friends: [FriendSchema._id],
+  thoughts: [Thought._id],
+  friends: [Friend._id],
 });
+
+UserSchema.virtual("friendCount").get(() => {
+  return this.friends.length;
+});
+
+const User = model("user", UserSchema);
 
 module.exports = User;
