@@ -1,4 +1,4 @@
-const router = require("express").Router;
+const router = require("express").Router();
 
 const {
   getUsers,
@@ -8,10 +8,10 @@ const {
   deleteUser,
 } = require("../../controllers/usersController");
 
-// router.route("/").get(getUsers).post(createNewUser);
+router.route("/").get(getUsers).post(createNewUser);
 
-// router.route("/:userId").get(getSingleUser).put(updateUser).delete(deleteUser);
+router.route("/:userId").get(getSingleUser).put(updateUser).delete(deleteUser);
 
-router.get('/', ()=>console.log("it worked!"))
+// router.get("/", () => console.log("it worked!"));
 
 module.exports = router;
