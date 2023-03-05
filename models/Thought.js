@@ -8,7 +8,7 @@ const ReactionSchema = new mongoose.Schema({
   },
   reactionBody: {
     type: String,
-    required: trusted,
+    required: true,
     maxlength: 280,
   },
   username: {
@@ -43,6 +43,6 @@ ThoughtSchema.virtual("reactionCount").get(() => {
   return this.reactions.length;
 });
 
-const Thought = model("thought", ThoughtSchema);
+const Thought = new mongoose.model("thought", ThoughtSchema);
 
 module.exports = Thought;

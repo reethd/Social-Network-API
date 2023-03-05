@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const Thought = require("./Thought");
 
-const Friend = mongoose.model("Friend", UserSchema);
-
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -16,21 +14,31 @@ const UserSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => {
-        const emailRegEx = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-        const emailRegExp = new RegExp(emailRegEx);
+        const emailPattern = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        const emailRegExp = new RegExp(emailPattern);
         return value.match(emailRegExp);
       },
       message: (props) => `${props.value} is not a valid email!`,
     },
   },
-  thoughts: [Thought._id],
-  friends: [Friend._id],
+  thoughts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Thought",
+    },
+  ],
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 UserSchema.virtual("friendCount").get(() => {
   return this.friends.length;
 });
 
-const User = model("user", UserSchema);
+const User = new mongoose.model("user", UserSchema);
 
 module.exports = User;
