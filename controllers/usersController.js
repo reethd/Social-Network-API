@@ -1,15 +1,16 @@
 const { User } = require("../models");
 
 const usersController = {
-    
   getUsers(req, res) {
-    User.find({})
+    User.find()
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(500).json(err));
   },
 
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
+      .populate("thoughts")
+      .populate("friends")
       .then((dbUserData) =>
         !dbUserData
           ? res.status(404).json({ message: "No user with that ID" })
@@ -42,6 +43,28 @@ const usersController = {
           : res.json(dbUserData)
       )
       .catch((err) => res.status(500).json(err));
+  },
+
+  addFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } }
+    ).then((dbUserData) =>
+      !dbUserData
+        ? res.status(404).json({ message: "No user with that ID!" })
+        : res.json(dbUserData)
+    );
+  },
+
+  deleteFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $unset: { friends: req.params.friendId } }
+    ).then((dbUserData) =>
+      !dbUserData
+        ? res.status(404).json({ message: "No user with that ID!" })
+        : res.json(dbUserData)
+    );
   },
 };
 
