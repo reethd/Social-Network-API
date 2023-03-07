@@ -49,10 +49,10 @@ const thoughtsController = {
 
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
-      .then((dbThoughtData) => 
+      .then((dbThoughtData) =>
         User.findOneAndUpdate(
-          {username: dbThoughtData.username },
-          {$unset: {thoughts: dbThoughtData._id}}
+          { username: dbThoughtData.username },
+          { $unset: { thoughts: dbThoughtData._id } }
         )
       )
       .then((dbThoughtData) =>
@@ -63,9 +63,29 @@ const thoughtsController = {
       .catch((err) => res.status(500).json(err));
   },
 
-  createReaction(req, res) {},
+  createReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { new: true }
+    ).then((dbThoughtData) =>
+      !dbThoughtData
+        ? res.status(404).json({ message: "No thought with that ID!" })
+        : res.json(dbThoughtData)
+    );
+  },
 
-  deleteReaction(req, res) {},
+  deleteReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $unset: { reactions: req.params.reactionId } },
+      { new: true }
+    ).then((dbThoughtData) =>
+      !dbThoughtData
+        ? res.status(404).json({ message: "No thought with that ID!" })
+        : res.json(dbThoughtData)
+    );
+  },
 };
 
 module.exports = thoughtsController;
