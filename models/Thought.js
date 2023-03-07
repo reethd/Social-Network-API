@@ -17,9 +17,8 @@ const ReactionSchema = new mongoose.Schema({
     required: true,
   },
   createdAt: {
-    type: Date,
-    default: Date.now(),
-    get: (createdAtVal) => moment(createdAtVal).format("MMM DD, YYYY H:mm a "),
+    type: String,
+    default: moment().format("dd MMM DD, YYYY H:mm a"),
   },
 });
 
@@ -31,9 +30,8 @@ const ThoughtSchema = new mongoose.Schema({
     maxlength: 280,
   },
   createdAt: {
-    type: Date,
-    default: Date.now(),
-    get: (createdAtVal) => moment(createdAtVal).format("MMM DD, YYYY H:mm a "),
+    type: String,
+    default: moment().format("dd MMM DD, YYYY H:mm a"),
   },
   username: {
     type: String,
